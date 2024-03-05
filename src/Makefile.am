@@ -129,6 +129,7 @@ endif
 # bitcoin core #
 BITCOIN_CORE_H = \
   addrdb.h \
+  rctindex.h \
   addrman.h \
   addrman_impl.h \
   attributes.h \
@@ -176,6 +177,8 @@ BITCOIN_CORE_H = \
   index/txindex.h \
   indirectmap.h \
   init.h \
+  anon.h \
+  blind.h \
   init/common.h \
   interfaces/chain.h \
   interfaces/echo.h \
@@ -198,6 +201,13 @@ BITCOIN_CORE_H = \
   kernel/mempool_persist.h \
   kernel/validation_cache_sizes.h \
   key.h \
+  globe/stealth.h \
+  globe/mnemonic.h \
+  globe/types.h \
+  globe/keyutil.h \
+  globe/hdwalletdb.h \
+  globe/hdwallet.h \
+  key_io.h \
   key_io.h \
   logging.h \
   logging/timer.h \
@@ -364,6 +374,7 @@ BITCOIN_CORE_H = \
   wallet/wallettool.h \
   wallet/walletutil.h \
   wallet/stake.h \
+  globe/extkey.h \
   walletinitinterface.h \
   warnings.h \
   zmq/zmqabstractnotifier.h \
@@ -510,6 +521,8 @@ endif
 libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BDB_CPPFLAGS) $(SQLITE_CFLAGS)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_wallet_a_SOURCES = \
+  blind.cpp \
+  globe/stealth.cpp \
   wallet/coincontrol.cpp \
   wallet/context.cpp \
   wallet/crypter.cpp \
@@ -537,6 +550,8 @@ libbitcoin_wallet_a_SOURCES = \
   wallet/walletdb.cpp \
   wallet/walletutil.cpp \
   wallet/coinselection.cpp \
+  globe/hdwalletdb.cpp \
+  globe/hdwallet.cpp \
   $(BITCOIN_CORE_H)
 
 if USE_SQLITE
@@ -692,11 +707,16 @@ libbitcoin_common_a_SOURCES = \
   compressor.cpp \
   core_read.cpp \
   core_write.cpp \
+  anon.cpp \
+  blind.cpp \
   deploymentinfo.cpp \
   external_signer.cpp \
   init/common.cpp \
   kernel/chainparams.cpp \
   key.cpp \
+  globe/keyutil.cpp \
+  globe/stealth.cpp \
+  globe/extkey.cpp \
   key_io.cpp \
   merkleblock.cpp \
   net_types.cpp \
@@ -1242,7 +1262,7 @@ include_HEADERS = script/bitcoinconsensus.h
 libbitcoinconsensus_la_SOURCES = support/cleanse.cpp $(crypto_libbitcoin_crypto_base_la_SOURCES) $(libbitcoin_consensus_a_SOURCES)
 
 libbitcoinconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS)
-libbitcoinconsensus_la_LIBADD = $(LIBSECP256K1)
+libbitcoinconsensus_la_LIBADD = $(LIBSECP256K1) $(BOOST_LIBS)
 libbitcoinconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
 libbitcoinconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
