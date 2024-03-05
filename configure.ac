@@ -2057,7 +2057,7 @@ CPPFLAGS_TEMP="$CPPFLAGS"
 unset CPPFLAGS
 CPPFLAGS="$CPPFLAGS_TEMP"
 
-ac_configure_args="${ac_configure_args} --disable-shared --with-pic --enable-benchmark=no --enable-module-recovery"
+ac_configure_args="${ac_configure_args} --disable-shared --with-pic --enable-benchmark=no --enable-module-recovery --enable-module-ecdh --enable-module-rangeproof --enable-module-generator --enable-module-mlsag --enable-experimental --enable-endomorphism"
 AC_CONFIG_SUBDIRS([src/secp256k1])
 
 AC_OUTPUT
